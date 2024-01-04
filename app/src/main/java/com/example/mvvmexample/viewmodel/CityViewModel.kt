@@ -1,13 +1,16 @@
+import android.app.Application
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.mvvmexample.model.City
 import com.example.mvvmexample.model.CityDataProvider
 
-class CityViewModel : ViewModel() {
+//make available application context in viewmodel for some functionality like accessing system service and all
+class CityViewModel(application: Application) : AndroidViewModel(application){
 
     private val cityData = MutableLiveData<City>()
     private val cities = CityDataProvider().getCities()
@@ -19,6 +22,7 @@ class CityViewModel : ViewModel() {
     init {
         // Start updating city data when ViewModel is created
         updateCity()
+        Log.e("use application context in this file",""+application.filesDir)
     }
 
     fun getCityData(): LiveData<City> = cityData
